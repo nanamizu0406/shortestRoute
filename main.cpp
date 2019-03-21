@@ -14,6 +14,7 @@ using point=std::pair<int, int>;
 void inits();
 void resize(int w, int h);
 void keyboard(unsigned char key, int x, int y);
+void special(int key, int x, int y);
 void display();
 void mouse(int button, int state, int x, int y);
 void motion(int x, int y);
@@ -60,6 +61,7 @@ int main(int argc, char* argv[]){
 	inits();
 	glutReshapeFunc(resize);
 	glutKeyboardFunc(keyboard);
+	glutSpecialFunc(special);
 	glutDisplayFunc(display);
 	glutMouseFunc(mouse);
 	glutMotionFunc(motion);
@@ -104,6 +106,7 @@ void Field::plotWall(){
 	
 
 	
+	this->mouseLog.clear();
 }
 void Field::printConsole() const{
 	point state;
@@ -153,7 +156,14 @@ void Field::printField() const{
 	glEnd();
 }
 void Field::printWall() const{
-	
+	static const double val=cellSize/2;
+	static const unsigned pointSize=19;
+	glPointSize(pointSize);
+	glColor3f(0.0f, 0.0f, 8.0f);
+	glBegin(GL_POINTS);
+	glVertex2d(val+cellSize*this->start.first, val+cellSize*this->start.second);
+	glVertex2d(val+cellSize*this->goal.first, val+cellSize*this->goal.second);
+	glEnd();
 }
 
 Search::Search(){
@@ -188,6 +198,16 @@ void keyboard(unsigned char key, int x, int y){
 	case 'R':
 		field.inits();
 		field.printConsole();
+		break;
+	default:
+		break;
+	}
+}
+void special(int key, int x, int y){
+	switch(key){
+	case GLUT_KEY_F5:
+		std::cout<<"down F5"<<std::endl;
+		field.plotWall();
 		break;
 	default:
 		break;
