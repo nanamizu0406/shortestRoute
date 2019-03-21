@@ -15,6 +15,7 @@ void inits();
 void resize(int w, int h);
 void keyboard(unsigned char key, int x, int y);
 void display();
+void mouse(int button, int state, int x, int y);
 void motion(int x, int y);
 void timer(int value);
 
@@ -36,6 +37,7 @@ public:
 	~Field();
 	void inits();
 	void recordCoord(int x, int y);
+	void plotWall();
 	void printConsole() const;
 	void printField() const;
 	void printWall() const;
@@ -59,6 +61,7 @@ int main(int argc, char* argv[]){
 	glutReshapeFunc(resize);
 	glutKeyboardFunc(keyboard);
 	glutDisplayFunc(display);
+	glutMouseFunc(mouse);
 	glutMotionFunc(motion);
 	glutMainLoop();
 	return 0;
@@ -78,11 +81,29 @@ void Field::inits(){
 		});
 	this->mouseLog.clear();
 	this->start=std::make_pair(0, 0);
-	this->goal=std::make_pair(0, 0);
+	this->goal=std::make_pair(this->wight-1, this->height-1);
 }
 void Field::recordCoord(int x, int y){
+	bool result(x<0||y<0||x>this->wight*cellSize||y>this->height*cellSize);
+	if(result)
+		return;
 	point coord=std::make_pair(x, y);
-	this->mouseLog.push_back(coord);
+	if(this->mouseLog.empty()){
+		this->mouseLog.push_back(coord);
+		std::cout<<"X = "<<x<<" : Y = "<<y<<std::endl;
+	}
+	else{
+		auto itr=std::find(this->mouseLog.begin(), this->mouseLog.end(), coord);
+		if(itr==this->mouseLog.end()){
+			this->mouseLog.push_back(coord);
+			std::cout<<"X = "<<x<<" : Y = "<<y<<std::endl;
+		}
+	}
+}
+void Field::plotWall(){
+	
+
+	
 }
 void Field::printConsole() const{
 	point state;
@@ -101,6 +122,7 @@ void Field::printConsole() const{
 			}
 			switch(this->field.at(i).at(j)){
 			case EMPTY:
+				std::cout<<"\x1b[39m";
 				std::cout<<"　";
 				break;
 			case WALL:
@@ -164,7 +186,8 @@ void keyboard(unsigned char key, int x, int y){
 		break;
 	case 'r':
 	case 'R':
-		
+		field.inits();
+		field.printConsole();
 		break;
 	default:
 		break;
@@ -177,8 +200,24 @@ void display(){
 	glutSwapBuffers();
 	glFlush();
 }
+void mouse(int button, int state, int x, int y){
+	switch(button){
+	case GLUT_LEFT_BUTTON:
+		if(state==GLUT_DOWN){
+			std::cout<<"mouse"<<std::endl;
+			field.recordCoord(x, y);
+		}
+		break;
+	case GLUT_RIGHT_BUTTON:
+		break;
+	case GLUT_MIDDLE_BUTTON:
+		break;
+	default:
+		break;
+	}
+}
 void motion(int x, int y){
-	
+	field.recordCoord(x, y);
 }
 void timer(int value){
 	
