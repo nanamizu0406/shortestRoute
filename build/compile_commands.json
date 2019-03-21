@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/home/kaito/program/A-star/build",
+  "command": "/usr/bin/c++  -DMACRO1=bar  -std=c++14 -Wall   -I/foo/dir1 -o CMakeFiles/cmake_test.dir/CMakeFiles/3.10.2/CompilerIdCXX/CMakeCXXCompilerId.cpp.o -c /home/kaito/program/A-star/build/CMakeFiles/3.10.2/CompilerIdCXX/CMakeCXXCompilerId.cpp",
+  "file": "/home/kaito/program/A-star/build/CMakeFiles/3.10.2/CompilerIdCXX/CMakeCXXCompilerId.cpp"
+},
+{
+  "directory": "/home/kaito/program/A-star/build",
+  "command": "/usr/bin/c++  -DMACRO1=bar  -std=c++14 -Wall   -I/foo/dir1 -o CMakeFiles/cmake_test.dir/main.cpp.o -c /home/kaito/program/A-star/main.cpp",
+  "file": "/home/kaito/program/A-star/main.cpp"
+}
+]

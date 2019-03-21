@@ -1,0 +1,2 @@
+#!/bin/sh
+exec g++ "$@" -L/usr/X11R6/lib -lglut -lGLU -lGL -lXmu -lXi -lXext -lX11 -lm
