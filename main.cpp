@@ -18,7 +18,6 @@ void special(int key, int x, int y);
 void display();
 void mouse(int button, int state, int x, int y);
 void motion(int x, int y);
-void timer(int value);
 
 class Field{
 private:
@@ -44,18 +43,35 @@ public:
 	void printConsole() const;
 	void printField() const;
 	void printWall() const;
+	int getWight() const;
+	int getHeight() const;
 }field;
+
 class AStar{
+private:
 public:
-	
+	AStar();
+	~AStar();
+	enum Status{
+		 NONE,
+		 OPEN,
+		 CLOSED,
+	};
+	Status status;
+	int cost;
+	int heuristic;
+	point coord;
+	AStar* parent;
+	int getScore();
 };
+
 class Search{
 private:
-	
+	std::vector<std::vector<AStar>> astar;
 public:
 	Search();
 	~Search();
-	void aStar() const;
+	void inits();
 };
 
 int main(int argc, char* argv[]){
@@ -183,9 +199,10 @@ void Field::printWall() const{
 	static const double val=cellSize/2;
 	static const unsigned pointSize=cellSize-1;
 	glPointSize(pointSize);
-	glColor3f(0.0f, 0.0f, 8.0f);
 	glBegin(GL_POINTS);
+	glColor3f(0.0f, 0.0f, 1.0f);
 	glVertex2d(val+cellSize*this->start.first, val+cellSize*this->start.second);
+	glColor3f(0.0f, 1.0f, 1.0f);
 	glVertex2d(val+cellSize*this->goal.first, val+cellSize*this->goal.second);
 	glColor3f(1.0f, 0.0f, 0.0f);
 	glBegin(GL_POINTS);
@@ -197,10 +214,31 @@ void Field::printWall() const{
 	}
 	glEnd();
 }
+int Field::getWight() const{
+	return this->wight;
+}
+int Field::getHeight() const{
+	return this->height;
+}
+
+AStar::AStar():status(NONE),cost(-1),heuristic(-1),coord(0, 0),parent(nullptr){
+}
+AStar::~AStar(){
+}
+int AStar::getScore(){
+	return this->cost+this->heuristic;
+}
 
 Search::Search(){
 }
 Search::~Search(){
+}
+void Search::inits(){
+	this->astar.clear();
+	this->astar.resize(field.getHeight());
+	std::for_each(this->astar.begin(), this->astar.end(), [this](auto& vec){
+			vec.resize(field.getWight());
+		});
 }
 
 void inits(){
@@ -279,8 +317,5 @@ void mouse(int button, int state, int x, int y){
 }
 void motion(int x, int y){
 	field.recordCoord(x, y);
-}
-void timer(int value){
-	
 }
 
