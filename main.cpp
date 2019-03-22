@@ -39,6 +39,7 @@ public:
 	void inits();
 	void recordCoord(int x, int y);
 	void plotWall();
+	void changeCoord(point& obj) const;
 	void printConsole() const;
 	void printField() const;
 	void printWall() const;
@@ -90,23 +91,23 @@ void Field::recordCoord(int x, int y){
 	if(result)
 		return;
 	point coord=std::make_pair(x, y);
-	if(this->mouseLog.empty()){
+	auto itr=std::find(this->mouseLog.begin(), this->mouseLog.end(), coord);
+	if(itr==this->mouseLog.end()){
 		this->mouseLog.push_back(coord);
 		std::cout<<"X = "<<x<<" : Y = "<<y<<std::endl;
 	}
-	else{
-		auto itr=std::find(this->mouseLog.begin(), this->mouseLog.end(), coord);
-		if(itr==this->mouseLog.end()){
-			this->mouseLog.push_back(coord);
-			std::cout<<"X = "<<x<<" : Y = "<<y<<std::endl;
-		}
-	}
 }
 void Field::plotWall(){
-	
-
-	
+	std::for_each(this->mouseLog.begin(), this->mouseLog.end(), [this](auto& coord){
+			this->changeCoord(coord);
+			if(this->field.at(coord.second).at(coord.first)==EMPTY)
+				this->field.at(coord.second).at(coord.first)=WALL;
+		});
 	this->mouseLog.clear();
+}
+void Field::changeCoord(point& obj) const{
+	obj.first=obj.first/cellSize;
+	obj.second=obj.second/cellSize;
 }
 void Field::printConsole() const{
 	point state;
@@ -163,6 +164,14 @@ void Field::printWall() const{
 	glBegin(GL_POINTS);
 	glVertex2d(val+cellSize*this->start.first, val+cellSize*this->start.second);
 	glVertex2d(val+cellSize*this->goal.first, val+cellSize*this->goal.second);
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glBegin(GL_POINTS);
+	for(int i=0;i<this->height;i++){
+		for(int j=0;j<this->wight;j++){
+			if(this->field.at(i).at(j)==WALL)
+				glVertex2d(val+cellSize*j, val+cellSize*i);
+		}
+	}
 	glEnd();
 }
 
@@ -198,6 +207,13 @@ void keyboard(unsigned char key, int x, int y){
 	case 'R':
 		field.inits();
 		field.printConsole();
+		glutPostRedisplay();
+		break;
+	case 'a':
+	case 'A':
+		field.plotWall();
+		field.printConsole();
+		glutPostRedisplay();
 		break;
 	default:
 		break;
@@ -206,8 +222,9 @@ void keyboard(unsigned char key, int x, int y){
 void special(int key, int x, int y){
 	switch(key){
 	case GLUT_KEY_F5:
-		std::cout<<"down F5"<<std::endl;
 		field.plotWall();
+		field.printConsole();
+		glutPostRedisplay();
 		break;
 	default:
 		break;
@@ -227,10 +244,6 @@ void mouse(int button, int state, int x, int y){
 			std::cout<<"mouse"<<std::endl;
 			field.recordCoord(x, y);
 		}
-		break;
-	case GLUT_RIGHT_BUTTON:
-		break;
-	case GLUT_MIDDLE_BUTTON:
 		break;
 	default:
 		break;
