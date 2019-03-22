@@ -11,6 +11,11 @@
 const unsigned cellSize=10;
 using point=std::pair<int, int>;
 
+point operator+(const point &lhs, const point &rhs){
+	point p = { lhs.first + rhs.first, lhs.second + rhs.second };
+	return p;
+}
+
 void inits();
 void resize(int w, int h);
 void keyboard(unsigned char key, int x, int y);
@@ -56,6 +61,8 @@ public:
 	int getWight() const;
 	int getHeight() const;
 	int getState(const point& coord) const;
+	point getStart() const;
+	point getGoal() const;
 }field;
 
 class AStar{
@@ -79,11 +86,19 @@ public:
 class Search{
 private:
 	std::vector<std::vector<AStar>> astar;
+	const std::vector<point> dir4={
+		{-1,0},{0,-1},{1,0},{0,1}
+	};
+	const std::vector<point> dir8={
+		{-1,0},{-1,-1},{0,-1},{1,-1},{1,0},{1,1},{0,1},{-1,1}
+	};
 public:
 	Search();
 	~Search();
 	void inits();
-};
+	int heuristicCost4(const point& coord) const;
+	int heuristicCost8(const point& coord) const;
+}search;
 
 int main(int argc, char* argv[]){
 	field.printConsole();
@@ -245,6 +260,12 @@ int Field::getHeight() const{
 int Field::getState(const point& coord) const{
 	return this->field.at(coord.second).at(coord.first);
 }
+point Field::getStart() const{
+	return this->start;
+}
+point Field::getGoal() const{
+	return this->goal;
+}
 
 AStar::AStar():status(NONE),cost(-1),heuristic(-1),coord(0, 0),parent(nullptr){
 }
@@ -255,6 +276,7 @@ int AStar::getScore(){
 }
 
 Search::Search(){
+	this->inits();
 }
 Search::~Search(){
 }
@@ -264,6 +286,21 @@ void Search::inits(){
 	std::for_each(this->astar.begin(), this->astar.end(), [this](auto& vec){
 			vec.resize(field.getWight());
 		});
+	for(int i=0;i<field.getHeight();i++){
+		for(int j=0;j<field.getWight();j++){
+			this->astar.at(i).at(j).coord=std::make_pair(j, i);
+		}
+	}
+}
+int Search::heuristicCost4(const point& coord) const{
+	int dx=std::abs(field.getGoal().first-coord.first);
+	int dy=std::abs(field.getGoal().second-coord.second);
+	return std::max(dx, dy);
+}
+int Search::heuristicCost8(const point& coord) const{
+	int dx=std::abs(field.getGoal().first-coord.first);
+	int dy=std::abs(field.getGoal().second-coord.second);
+	return dx+dy;
 }
 
 void inits(){
