@@ -19,6 +19,16 @@ void display();
 void mouse(int button, int state, int x, int y);
 void motion(int x, int y);
 
+class Timer{
+private:
+	std::chrono::system_clock::time_point start;
+	std::chrono::system_clock::time_point end;
+public:
+	void begin();
+	void stop();
+	void disp() const;
+}timer;
+
 class Field{
 private:
 	enum State{
@@ -45,6 +55,7 @@ public:
 	void printWall() const;
 	int getWight() const;
 	int getHeight() const;
+	int getState(const point& coord) const;
 }field;
 
 class AStar{
@@ -88,6 +99,17 @@ int main(int argc, char* argv[]){
 	glutMotionFunc(motion);
 	glutMainLoop();
 	return 0;
+}
+
+void Timer::begin(){
+	this->start=std::chrono::system_clock::now();
+}
+void Timer::stop(){
+	this->end=std::chrono::system_clock::now();
+}
+void Timer::disp() const{
+	unsigned val=std::chrono::duration_cast<std::chrono::microseconds>(this->end-this->start).count();
+	std::cout<<val<<"micro"<<std::endl;
 }
 
 Field::Field(){
@@ -219,6 +241,9 @@ int Field::getWight() const{
 }
 int Field::getHeight() const{
 	return this->height;
+}
+int Field::getState(const point& coord) const{
+	return this->field.at(coord.second).at(coord.first);
 }
 
 AStar::AStar():status(NONE),cost(-1),heuristic(-1),coord(0, 0),parent(nullptr){
