@@ -103,15 +103,13 @@ public:
 	void inits();
 	int heuristicCost4(const point& coord) const;
 	int heuristicCost8(const point& coord) const;
-	bool aStar();
+	bool aStar4();
+	bool aStar8();
 	void makeRoute();
 	void printRpute() const;
 }search;
 
 int main(int argc, char* argv[]){
-	field.printConsole();
-	search.aStar();
-	
 	glutInit(&argc, argv);
 	glutCreateWindow("A-star");
 	inits();
@@ -320,7 +318,7 @@ int Search::heuristicCost8(const point& coord) const{
 	int dy=std::abs(field.getGoal().second-coord.second);
 	return dx+dy;
 }
-bool Search::aStar(){
+bool Search::aStar4(){
 	this->inits();
 	std::vector<AStar*> openList;
 	AStar* start=&this->astar.at(field.getStart().second).at(field.getStart().first);
@@ -352,11 +350,43 @@ bool Search::aStar(){
 	}
 	return false;
 }
+bool Search::aStar8(){
+	this->inits();
+	std::vector<AStar*> openList;
+	AStar* start=&this->astar.at(field.getStart().second).at(field.getStart().first);
+	start->status=OPEN;
+	start->cost=0;
+	start->heuristic=this->heuristicCost8(start->coord);
+	openList.push_back(start);
+	AStar* current;
+	AStar* next;
+	point searchCoord;
+	while(!openList.empty()){
+		std::sort(openList.begin(), openList.end(), compare);
+		current=openList.at(0);
+		if(current->coord==field.getGoal())
+			return true;
+		std::for_each(this->dir8.begin(), this->dir8.end(), [&,this](auto& dir){
+				searchCoord=current->coord+dir;
+				next=&this->astar.at(searchCoord.second).at(searchCoord.first);
+				if(!field.isWall(searchCoord)&&next->status==NONE){
+					next->status=OPEN;
+					next->cost=current->cost+1;
+					next->heuristic=this->heuristicCost8(next->coord);
+					next->parent=current;
+					openList.push_back(next);
+				}
+			});
+		current->status=CLOSED;
+		openList.erase(openList.begin());
+	}
+	return false;
+}
 void Search::makeRoute(){
 	point goal=field.getGoal();
 	this->route.push_back(goal);
 	point from=this->astar.at(goal.second).at(goal.first).parent->coord;
-	this->route.push_back(goal);
+	this->route.push_back(from);
 	while(true){
 		if(this->astar.at(from.second).at(from.first).parent==nullptr)
 			break;
@@ -417,7 +447,22 @@ void keyboard(unsigned char key, int x, int y){
 	case 'a':
 	case 'A':
 		timer.begin();
-		result=search.aStar();
+		result=search.aStar4();
+		timer.stop();
+		if(!result){
+			std::cout<<"route is closed"<<std::endl;
+			glutPostRedisplay();
+		}
+		else{
+			timer.disp();
+			search.makeRoute();
+			glutPostRedisplay();
+		}
+		break;
+	case 'b':
+	case 'B':
+		timer.begin();
+		result=search.aStar8();
 		timer.stop();
 		if(!result)
 			std::cout<<"route is closed"<<std::endl;
@@ -426,7 +471,6 @@ void keyboard(unsigned char key, int x, int y){
 			search.makeRoute();
 			glutPostRedisplay();
 		}
-		break;
 	default:
 		break;
 	}
@@ -444,9 +488,9 @@ void special(int key, int x, int y){
 }
 void display(){
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+	search.printRpute();
 	field.printField();
 	field.printWall();
-	search.printRpute();
 	glutSwapBuffers();
 	glFlush();
 }
