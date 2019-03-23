@@ -436,6 +436,7 @@ void keyboard(unsigned char key, int x, int y){
 	case 'R':
 		field.inits();
 		field.printConsole();
+		search.inits();
 		glutPostRedisplay();
 		break;
 	case 'p':
