@@ -106,7 +106,7 @@ public:
 	bool aStar4();
 	bool aStar8();
 	void makeRoute();
-	void printRpute() const;
+	void printRoute() const;
 }search;
 
 int main(int argc, char* argv[]){
@@ -395,7 +395,7 @@ void Search::makeRoute(){
 	}
 	std::reverse(this->route.begin(), this->route.end());
 }
-void Search::printRpute() const{
+void Search::printRoute() const{
 	static const double val=cellSize/2;
 	static const unsigned pointSize=cellSize-1;	
 	glPointSize(pointSize);
@@ -489,7 +489,7 @@ void special(int key, int x, int y){
 }
 void display(){
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	search.printRpute();
+	search.printRoute();
 	field.printField();
 	field.printWall();
 	glutSwapBuffers();
