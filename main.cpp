@@ -105,6 +105,7 @@ public:
 	int heuristicCost8(const point& coord) const;
 	bool aStar();
 	void makeRoute();
+	void printRpute() const;
 }search;
 
 int main(int argc, char* argv[]){
@@ -333,10 +334,8 @@ bool Search::aStar(){
 	while(!openList.empty()){
 		std::sort(openList.begin(), openList.end(), compare);
 		current=openList.at(0);
-		if(current->coord==field.getGoal()){
-			std::cout<<"hoge"<<std::endl;
+		if(current->coord==field.getGoal())
 			return true;
-		}
 		std::for_each(this->dir4.begin(), this->dir4.end(), [&,this](auto& dir){
 				searchCoord=current->coord+dir;
 				next=&this->astar.at(searchCoord.second).at(searchCoord.first);
@@ -364,6 +363,19 @@ void Search::makeRoute(){
 		from=this->astar.at(from.second).at(from.first).parent->coord;
 		this->route.push_back(from);
 	}
+	std::reverse(this->route.begin(), this->route.end());
+}
+void Search::printRpute() const{
+	static const double val=cellSize/2;
+	static const unsigned pointSize=cellSize-1;	
+	glPointSize(pointSize);
+	glColor3f(1.0f, 1.0f, 0.0f);
+	glBegin(GL_POINTS);
+	for(int i=0;i<this->route.size();i++){
+		point coord=this->route.at(i);
+		glVertex2d(val+coord.first*cellSize, val+coord.second*cellSize);
+	}
+	glEnd();
 }
 
 void inits(){
@@ -384,7 +396,6 @@ void resize(int w, int h){
 }
 void keyboard(unsigned char key, int x, int y){
 	bool result;
-	
 	switch(key){
 	case 'q':
 	case 'Q':
@@ -405,8 +416,6 @@ void keyboard(unsigned char key, int x, int y){
 		break;
 	case 'a':
 	case 'A':
-
-
 		timer.begin();
 		result=search.aStar();
 		timer.stop();
@@ -418,9 +427,6 @@ void keyboard(unsigned char key, int x, int y){
 			glutPostRedisplay();
 		}
 		break;
-
-
-		
 	default:
 		break;
 	}
@@ -440,6 +446,7 @@ void display(){
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	field.printField();
 	field.printWall();
+	search.printRpute();
 	glutSwapBuffers();
 	glFlush();
 }
