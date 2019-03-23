@@ -63,6 +63,7 @@ public:
 	int getState(const point& coord) const;
 	point getStart() const;
 	point getGoal() const;
+	bool isWall(const point& coord) const;
 }field;
 
 class AStar{
@@ -80,7 +81,7 @@ public:
 	int heuristic;
 	point coord;
 	AStar* parent;
-	int getScore();
+	int getScore() const;
 };
 
 class Search{
@@ -98,6 +99,9 @@ public:
 	void inits();
 	int heuristicCost4(const point& coord) const;
 	int heuristicCost8(const point& coord) const;
+	bool aStar();
+	bool compare(const AStar& obj1, const AStar& obj2) const;
+	void deleter(std::vector<AStar*>& vec) const;
 }search;
 
 int main(int argc, char* argv[]){
@@ -266,12 +270,16 @@ point Field::getStart() const{
 point Field::getGoal() const{
 	return this->goal;
 }
+bool Field::isWall(const point& coord) const{
+	return (this->field.at(coord.second).at(coord.first)==WALL);
+}
 
 AStar::AStar():status(NONE),cost(-1),heuristic(-1),coord(0, 0),parent(nullptr){
 }
 AStar::~AStar(){
+	delete this->parent;
 }
-int AStar::getScore(){
+int AStar::getScore() const{
 	return this->cost+this->heuristic;
 }
 
@@ -301,6 +309,22 @@ int Search::heuristicCost8(const point& coord) const{
 	int dx=std::abs(field.getGoal().first-coord.first);
 	int dy=std::abs(field.getGoal().second-coord.second);
 	return dx+dy;
+}
+bool Search::aStar(){
+	std::vector<AStar*> openList;
+	
+	
+	this->deleter(openList);
+	return false;
+}
+bool Search::compare(const AStar& obj1, const AStar& obj2) const{
+	bool result=obj1.getScore()!=obj2.getScore();
+	return (result?obj1.getScore()<obj2.getScore():obj1.heuristic<obj2.heuristic);
+}
+void Search::deleter(std::vector<AStar*>& vec) const{
+	std::for_each(vec.begin(), vec.end(), [](auto astar){
+			delete astar;
+		});
 }
 
 void inits(){
