@@ -43,8 +43,8 @@ private:
 private:
 	std::vector<std::vector<int>> field;
 	std::vector<point> mouseLog;
-	const unsigned wight=40;
-	const unsigned height=40;
+	const unsigned wight=70;
+	const unsigned height=70;
 	point start;
 	point goal;
 public:
@@ -167,6 +167,7 @@ void Field::recordCoord(int x, int y){
 	auto itr=std::find(this->mouseLog.begin(), this->mouseLog.end(), coord);
 	if(itr==this->mouseLog.end())
 		this->mouseLog.push_back(coord);
+	
 }
 void Field::setStartGoal(int x, int y){
 	bool result(x<=0||y<=0||x>=this->wight*cellSize||y>=this->height*cellSize);
@@ -182,11 +183,8 @@ void Field::setStartGoal(int x, int y){
 	flag=(flag+1)%2;
 }
 void Field::plotWall(){
-	std::for_each(this->mouseLog.begin(), this->mouseLog.end(), [this](auto& coord){
-			if(this->field.at(coord.second).at(coord.first)==EMPTY)
-				this->field.at(coord.second).at(coord.first)=WALL;
-		});
-	this->mouseLog.clear();
+	point coord=this->mouseLog.at(this->mouseLog.size()-1);
+	this->field.at(coord.second).at(coord.first)=WALL;
 }
 void Field::changeCoord(point& obj) const{
 	obj.first=obj.first/cellSize;
@@ -439,12 +437,6 @@ void keyboard(unsigned char key, int x, int y){
 		search.inits();
 		glutPostRedisplay();
 		break;
-	case 'p':
-	case 'P':
-		field.plotWall();
-		field.printConsole();
-		glutPostRedisplay();
-		break;
 	case 'a':
 	case 'A':
 		timer.begin();
@@ -498,13 +490,15 @@ void display(){
 void mouse(int button, int state, int x, int y){
 	switch(button){
 	case GLUT_LEFT_BUTTON:
-		if(state==GLUT_DOWN)
+		if(state==GLUT_DOWN){
 			field.recordCoord(x, y);
+			field.plotWall();
+			glutPostRedisplay();
+		}
 		break;
 	case GLUT_RIGHT_BUTTON:
 		if(state==GLUT_DOWN){
 			field.setStartGoal(x, y);
-			field.printConsole();
 			glutPostRedisplay();
 		}
 		break;
@@ -514,5 +508,7 @@ void mouse(int button, int state, int x, int y){
 }
 void motion(int x, int y){
 	field.recordCoord(x, y);
+	field.plotWall();
+	glutPostRedisplay();
 }
 
