@@ -183,6 +183,8 @@ void Field::setStartGoal(int x, int y){
 	flag=(flag+1)%2;
 }
 void Field::plotWall(){
+	if(this->mouseLog.empty())
+		return;
 	point coord=this->mouseLog.at(this->mouseLog.size()-1);
 	this->field.at(coord.second).at(coord.first)=WALL;
 }
@@ -433,7 +435,6 @@ void keyboard(unsigned char key, int x, int y){
 	case 'r':
 	case 'R':
 		field.inits();
-		field.printConsole();
 		search.inits();
 		glutPostRedisplay();
 		break;
@@ -472,7 +473,6 @@ void special(int key, int x, int y){
 	switch(key){
 	case GLUT_KEY_F5:
 		field.plotWall();
-		field.printConsole();
 		glutPostRedisplay();
 		break;
 	default:
