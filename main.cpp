@@ -8,6 +8,8 @@
 #include<queue>
 #include<GL/glut.h>
 
+const unsigned fieldSizeWight=60;
+const unsigned fieldSizeHeight=70;
 const unsigned cellSize=10;
 using point=std::pair<int, int>;
 
@@ -32,7 +34,7 @@ public:
 	void begin();
 	void stop();
 	void disp() const;
-}timer;
+};
 
 class Field{
 private:
@@ -43,8 +45,6 @@ private:
 private:
 	std::vector<std::vector<int>> field;
 	std::vector<point> mouseLog;
-	const unsigned wight=70;
-	const unsigned height=70;
 	point start;
 	point goal;
 public:
@@ -58,13 +58,11 @@ public:
 	void printConsole() const;
 	void printField() const;
 	void printWall() const;
-	int getWight() const;
-	int getHeight() const;
 	int getState(const point& coord) const;
 	point getStart() const;
 	point getGoal() const;
 	bool isWall(const point& coord) const;
-}field;
+};
 
 enum Status{
 	NONE,
@@ -107,7 +105,11 @@ public:
 	bool aStar8();
 	void makeRoute();
 	void printRoute() const;
-}search;
+};
+
+Timer timer;
+Field field;
+Search search;
 
 int main(int argc, char* argv[]){
 	glutInit(&argc, argv);
@@ -126,9 +128,11 @@ int main(int argc, char* argv[]){
 void Timer::begin(){
 	this->start=std::chrono::system_clock::now();
 }
+
 void Timer::stop(){
 	this->end=std::chrono::system_clock::now();
 }
+
 void Timer::disp() const{
 	unsigned val=std::chrono::duration_cast<std::chrono::microseconds>(this->end-this->start).count();
 	std::cout<<val<<"micro"<<std::endl;
@@ -137,13 +141,15 @@ void Timer::disp() const{
 Field::Field(){
 	this->inits();
 }
+
 Field::~Field(){
 }
+
 void Field::inits(){
 	this->field.clear();
-	this->field.resize(height);
+	this->field.resize(fieldSizeHeight);
 	std::for_each(this->field.begin(), this->field.end(), [this](auto& vec){
-			vec.resize(this->wight);
+			vec.resize(fieldSizeWight);
 			std::fill(vec.begin(), vec.end(), WALL);
 		});
 	std::for_each(this->field.begin()+1, this->field.end()-1, [this](auto& vec){
@@ -153,10 +159,11 @@ void Field::inits(){
 		});
 	this->mouseLog.clear();
 	this->start=std::make_pair(1, 1);
-	this->goal=std::make_pair(this->wight-2, this->height-2);
+	this->goal=std::make_pair(fieldSizeWight-2, fieldSizeHeight-2);
 }
+
 void Field::recordCoord(int x, int y){
-	bool result(x<=0||y<=0||x>=this->wight*cellSize||y>=this->height*cellSize);
+	bool result(x<=0||y<=0||x>=fieldSizeWight*cellSize||y>=fieldSizeHeight*cellSize);
 	if(result)
 		return;
 	point coord=std::make_pair(x, y);
@@ -166,11 +173,11 @@ void Field::recordCoord(int x, int y){
 		return;
 	auto itr=std::find(this->mouseLog.begin(), this->mouseLog.end(), coord);
 	if(itr==this->mouseLog.end())
-		this->mouseLog.push_back(coord);
-	
+		this->mouseLog.push_back(coord);	
 }
+
 void Field::setStartGoal(int x, int y){
-	bool result(x<=0||y<=0||x>=this->wight*cellSize||y>=this->height*cellSize);
+	bool result(x<=0||y<=0||x>=fieldSizeWight*cellSize||y>=fieldSizeHeight*cellSize);
 	if(result)
 		return;
 	point coord=std::make_pair(x, y);
@@ -182,20 +189,23 @@ void Field::setStartGoal(int x, int y){
 	(flag?this->start:this->goal)=coord;
 	flag=(flag+1)%2;
 }
+
 void Field::plotWall(){
 	if(this->mouseLog.empty())
 		return;
 	point coord=this->mouseLog.at(this->mouseLog.size()-1);
 	this->field.at(coord.second).at(coord.first)=WALL;
 }
+
 void Field::changeCoord(point& obj) const{
 	obj.first=obj.first/cellSize;
 	obj.second=obj.second/cellSize;
 }
+
 void Field::printConsole() const{
 	point state;
-	for(int i=0;i<this->height;i++){
-		for(int j=0;j<this->wight;j++){
+	for(int i=0;i<fieldSizeHeight;i++){
+		for(int j=0;j<fieldSizeWight;j++){
 			std::cout<<"\x1b[34m";
 			state.first=j;
 			state.second=i;
@@ -224,21 +234,23 @@ void Field::printConsole() const{
 		std::cout<<std::endl;
 	}
 }
+
 void Field::printField() const{
 	static const unsigned lineSize=1;
 	glColor3f(0.0f, 1.0f, 0.0);
 	glLineWidth(lineSize);
 	glBegin(GL_LINES);
-	for(int i=0;i<=this->wight;i++){
+	for(int i=0;i<=fieldSizeWight;i++){
 		glVertex2i(cellSize*i, 0);
-		glVertex2i(cellSize*i, cellSize*this->wight);
+		glVertex2i(cellSize*i, cellSize*fieldSizeHeight);
 	}
-	for(int j=0;j<=this->height;j++){
+	for(int j=0;j<=fieldSizeHeight;j++){
 		glVertex2i(0, cellSize*j);
-		glVertex2i(cellSize*this->height, cellSize*j);
+		glVertex2i(cellSize*fieldSizeWight, cellSize*j);
 	}
 	glEnd();
 }
+
 void Field::printWall() const{
 	static const double val=cellSize/2;
 	static const unsigned pointSize=cellSize-1;
@@ -250,37 +262,37 @@ void Field::printWall() const{
 	glVertex2d(val+cellSize*this->goal.first, val+cellSize*this->goal.second);
 	glColor3f(1.0f, 0.0f, 0.0f);
 	glBegin(GL_POINTS);
-	for(int i=0;i<this->height;i++){
-		for(int j=0;j<this->wight;j++){
+	for(int i=0;i<fieldSizeHeight;i++){
+		for(int j=0;j<fieldSizeWight;j++){
 			if(this->field.at(i).at(j)==WALL)
 				glVertex2d(val+cellSize*j, val+cellSize*i);
 		}
 	}
 	glEnd();
 }
-int Field::getWight() const{
-	return this->wight;
-}
-int Field::getHeight() const{
-	return this->height;
-}
+
 int Field::getState(const point& coord) const{
 	return this->field.at(coord.second).at(coord.first);
 }
+
 point Field::getStart() const{
 	return this->start;
 }
+
 point Field::getGoal() const{
 	return this->goal;
 }
+
 bool Field::isWall(const point& coord) const{
 	return (this->field.at(coord.second).at(coord.first)==WALL);
 }
 
 AStar::AStar():status(NONE),cost(-1),heuristic(-1),coord(0, 0),parent(nullptr){
 }
+
 AStar::~AStar(){
 }
+
 int AStar::getScore() const{
 	return this->cost+this->heuristic;
 }
@@ -293,31 +305,36 @@ bool compare(const AStar* obj1, const AStar* obj2){
 Search::Search(){
 	this->inits();
 }
+
 Search::~Search(){
 }
+
 void Search::inits(){
 	this->astar.clear();
-	this->astar.resize(field.getHeight());
+	this->astar.resize(fieldSizeHeight);
 	std::for_each(this->astar.begin(), this->astar.end(), [this](auto& vec){
-			vec.resize(field.getWight());
+			vec.resize(fieldSizeWight);
 		});
-	for(int i=0;i<field.getHeight();i++){
-		for(int j=0;j<field.getWight();j++){
+	for(int i=0;i<fieldSizeHeight;i++){
+		for(int j=0;j<fieldSizeWight;j++){
 			this->astar.at(i).at(j).coord=std::make_pair(j, i);
 		}
 	}
 	this->route.clear();
 }
+
 int Search::heuristicCost4(const point& coord) const{
 	int dx=std::abs(field.getGoal().first-coord.first);
 	int dy=std::abs(field.getGoal().second-coord.second);
 	return std::max(dx, dy);
 }
+
 int Search::heuristicCost8(const point& coord) const{
 	int dx=std::abs(field.getGoal().first-coord.first);
 	int dy=std::abs(field.getGoal().second-coord.second);
 	return dx+dy;
 }
+
 bool Search::aStar4(){
 	this->inits();
 	std::vector<AStar*> openList;
@@ -350,6 +367,7 @@ bool Search::aStar4(){
 	}
 	return false;
 }
+
 bool Search::aStar8(){
 	this->inits();
 	std::vector<AStar*> openList;
@@ -382,6 +400,7 @@ bool Search::aStar8(){
 	}
 	return false;
 }
+
 void Search::makeRoute(){
 	point goal=field.getGoal();
 	this->route.push_back(goal);
@@ -395,6 +414,7 @@ void Search::makeRoute(){
 	}
 	std::reverse(this->route.begin(), this->route.end());
 }
+
 void Search::printRoute() const{
 	static const double val=cellSize/2;
 	static const unsigned pointSize=cellSize-1;	
@@ -419,11 +439,13 @@ void inits(){
 	glutInitWindowSize(WindowSizeWight, WindowSizeHeight);
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 }
+
 void resize(int w, int h){
 	glViewport(0, 0, w, h);
 	glLoadIdentity();
 	glOrtho(-0.5, (GLdouble)w-0.5, (GLdouble)h-0.1, -0.5, -1.0, 1.0);
 }
+
 void keyboard(unsigned char key, int x, int y){
 	bool result;
 	switch(key){
@@ -458,8 +480,10 @@ void keyboard(unsigned char key, int x, int y){
 		timer.begin();
 		result=search.aStar8();
 		timer.stop();
-		if(!result)
+		if(!result){
 			std::cout<<"route is closed"<<std::endl;
+			glutPostRedisplay();
+		}
 		else{
 			timer.disp();
 			search.makeRoute();
@@ -469,6 +493,7 @@ void keyboard(unsigned char key, int x, int y){
 		break;
 	}
 }
+
 void special(int key, int x, int y){
 	switch(key){
 	case GLUT_KEY_F5:
@@ -479,6 +504,7 @@ void special(int key, int x, int y){
 		break;
 	}
 }
+
 void display(){
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	search.printRoute();
@@ -487,6 +513,7 @@ void display(){
 	glutSwapBuffers();
 	glFlush();
 }
+
 void mouse(int button, int state, int x, int y){
 	switch(button){
 	case GLUT_LEFT_BUTTON:
@@ -506,6 +533,7 @@ void mouse(int button, int state, int x, int y){
 		break;
 	}
 }
+
 void motion(int x, int y){
 	field.recordCoord(x, y);
 	field.plotWall();
