@@ -10,6 +10,7 @@
 
 const unsigned fieldSizeWight=60;
 const unsigned fieldSizeHeight=70;
+
 const unsigned cellSize=10;
 using point=std::pair<int, int>;
 
@@ -99,11 +100,11 @@ public:
 	Search();
 	~Search();
 	void inits();
-	int heuristicCost4(const point& coord) const;
-	int heuristicCost8(const point& coord) const;
+	int heuristicCost4(const point& coord, const point& goal) const;
+	int heuristicCost8(const point& coord, const point& goal) const;
 	bool aStar4();
 	bool aStar8();
-	void makeRoute();
+	void makeRoute(const point& goal);
 	void printRoute() const;
 };
 
@@ -323,15 +324,15 @@ void Search::inits(){
 	this->route.clear();
 }
 
-int Search::heuristicCost4(const point& coord) const{
-	int dx=std::abs(field.getGoal().first-coord.first);
-	int dy=std::abs(field.getGoal().second-coord.second);
+int Search::heuristicCost4(const point& coord, const point& goal) const{
+	int dx=std::abs(goal.first-coord.first);
+	int dy=std::abs(goal.second-coord.second);
 	return std::max(dx, dy);
 }
 
-int Search::heuristicCost8(const point& coord) const{
-	int dx=std::abs(field.getGoal().first-coord.first);
-	int dy=std::abs(field.getGoal().second-coord.second);
+int Search::heuristicCost8(const point& coord, const point& goal) const{
+	int dx=std::abs(goal.first-coord.first);
+	int dy=std::abs(goal.second-coord.second);
 	return dx+dy;
 }
 
@@ -341,7 +342,7 @@ bool Search::aStar4(){
 	AStar* start=&this->astar.at(field.getStart().second).at(field.getStart().first);
 	start->status=OPEN;
 	start->cost=0;
-	start->heuristic=this->heuristicCost4(start->coord);
+	start->heuristic=this->heuristicCost4(start->coord, field.getGoal());
 	openList.push_back(start);
 	AStar* current;
 	AStar* next;
@@ -357,7 +358,7 @@ bool Search::aStar4(){
 				if(!field.isWall(searchCoord)&&next->status==NONE){
 					next->status=OPEN;
 					next->cost=current->cost+1;
-					next->heuristic=this->heuristicCost4(next->coord);
+					next->heuristic=this->heuristicCost4(next->coord, field.getGoal());
 					next->parent=current;
 					openList.push_back(next);
 				}
@@ -374,7 +375,7 @@ bool Search::aStar8(){
 	AStar* start=&this->astar.at(field.getStart().second).at(field.getStart().first);
 	start->status=OPEN;
 	start->cost=0;
-	start->heuristic=this->heuristicCost8(start->coord);
+	start->heuristic=this->heuristicCost8(start->coord, field.getGoal());
 	openList.push_back(start);
 	AStar* current;
 	AStar* next;
@@ -390,7 +391,7 @@ bool Search::aStar8(){
 				if(!field.isWall(searchCoord)&&next->status==NONE){
 					next->status=OPEN;
 					next->cost=current->cost+1;
-					next->heuristic=this->heuristicCost8(next->coord);
+					next->heuristic=this->heuristicCost8(next->coord, field.getGoal());
 					next->parent=current;
 					openList.push_back(next);
 				}
@@ -401,8 +402,7 @@ bool Search::aStar8(){
 	return false;
 }
 
-void Search::makeRoute(){
-	point goal=field.getGoal();
+void Search::makeRoute(const point& goal){
 	this->route.push_back(goal);
 	point from=this->astar.at(goal.second).at(goal.first).parent->coord;
 	this->route.push_back(from);
@@ -471,7 +471,7 @@ void keyboard(unsigned char key, int x, int y){
 		}
 		else{
 			timer.disp();
-			search.makeRoute();
+			search.makeRoute(field.getGoal());
 			glutPostRedisplay();
 		}
 		break;
@@ -486,7 +486,7 @@ void keyboard(unsigned char key, int x, int y){
 		}
 		else{
 			timer.disp();
-			search.makeRoute();
+			search.makeRoute(field.getGoal());
 			glutPostRedisplay();
 		}
 	default:
