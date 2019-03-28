@@ -1,19 +1,19 @@
 #include"diamond.hpp"
 
 Terrain::Terrain(){
-	this->sea1=std::make_pair(0.0, 0.1);
-	this->sea2=std::make_pair(0.1, 0.2);
+	this->sea1=std::make_pair(0.00, 0.05);
+	this->sea2=std::make_pair(0.05, 0.20);
 	
-	this->beach=std::make_pair(0.2, 0.3);
+	this->beach=std::make_pair(0.20, 0.25);
+
+	this->grass1=std::make_pair(0.25, 0.35);
+	this->grass2=std::make_pair(0.35, 0.40);
 	
-	this->grass1=std::make_pair(0.3, 0.4);
-	this->grass2=std::make_pair(0.4, 0.5);
+	this->froat1=std::make_pair(0.40, 0.50);
+	this->froat2=std::make_pair(0.50, 0.55);
 	
-	this->froat1=std::make_pair(0.5, 0.6);
-	this->froat2=std::make_pair(0.6, 0.7);
-	
-	this->mountain1=std::make_pair(0.7, 0.8);
-	this->mountain2=std::make_pair(0.8, 1.0);
+	this->mountain1=std::make_pair(0.55, 0.70);
+	this->mountain2=std::make_pair(0.75, 1.00);
 }
 
 Terrain::~Terrain(){
@@ -90,12 +90,12 @@ void Terrain::print() const{
 			double state=this->field.at(i).at(j);
 			
 			if(state>=this->sea1.first&&state<this->sea1.second){
-				glColor3f(0.0f, 0.0f, 0.5f);
+				glColor3f(0.0f, 0.0f, 1.0f);
 				glVertex2d(val+cellSize*j, val+cellSize*i);
 				continue;
 			}
 			if(state>=this->sea2.first&&state<this->sea2.second){
-				glColor3f(0.0f, 0.0f, 1.0f);
+				glColor3f(0.0f, 0.3f, 1.0f);
 				glVertex2d(val+cellSize*j, val+cellSize*i);
 				continue;
 			}
@@ -129,12 +129,12 @@ void Terrain::print() const{
 			}
 			
 			if(state>=this->mountain1.first&&state<=this->mountain1.second){
-				glColor3f(0.6f, 0.6f, 0.6f);
+				glColor3f(0.7f, 0.7f, 0.7f);
 				glVertex2d(val+cellSize*j, val+cellSize*i);
 				continue;				
 			}
 			if(state>=this->mountain2.first&&state<=this->mountain2.second){
-				glColor3f(0.6f, 0.8f, 0.8f);
+				glColor3f(0.9f, 0.9f, 0.9f);
 				glVertex2d(val+cellSize*j, val+cellSize*i);
 				continue;				
 			}

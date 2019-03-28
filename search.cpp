@@ -69,7 +69,9 @@ bool Search::aStar4(Field& fields){
 				next=&this->astar.at(searchCoord.second).at(searchCoord.first);
 				if(!fields.isWall(searchCoord)&&next->status==NONE){
 					next->status=OPEN;
+					
 					next->cost=current->cost+1;
+						
 					next->heuristic=this->heuristicCost4(next->coord, fields.getGoal());
 					next->parent=current;
 					openList.push_back(next);
