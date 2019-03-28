@@ -1,8 +1,9 @@
 #include"tools.hpp"
 
-const unsigned fieldSizeWight=60;
-const unsigned fieldSizeHeight=70;
-const unsigned cellSize=10;
+// 2ⁿ+1 × 2ⁿ+1にする65 129...
+const unsigned fieldSizeWight=129;
+const unsigned fieldSizeHeight=129;
+const unsigned cellSize=5;
 
 point operator+(const point &lhs, const point &rhs){
 	point p={lhs.first+rhs.first, lhs.second+rhs.second};

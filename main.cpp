@@ -1,6 +1,7 @@
 #include"tools.hpp"
 #include"field.hpp"
 #include"search.hpp"
+#include"diamond.hpp"
 
 void inits();
 void resize(int w, int h);
@@ -13,6 +14,7 @@ void motion(int x, int y);
 Timer timer;
 Field field;
 Search search;
+Terrain terrain;
 
 int main(int argc, char* argv[]){
 	glutInit(&argc, argv);
@@ -58,6 +60,7 @@ void keyboard(unsigned char key, int x, int y){
 	case 'R':
 		field.inits();
 		search.inits();
+		terrain.clear();
 		glutPostRedisplay();
 		break;
 	case 'a':
@@ -89,6 +92,12 @@ void keyboard(unsigned char key, int x, int y){
 			search.makeRoute(field.getGoal());
 			glutPostRedisplay();
 		}
+		break;
+	case 'd':
+	case 'D':
+		terrain.diamondSquare();
+		glutPostRedisplay();
+		break;
 	default:
 		break;
 	}
@@ -107,8 +116,9 @@ void special(int key, int x, int y){
 
 void display(){
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	search.printRoute();
 	field.printField();
+	terrain.print();
+	search.printRoute();
 	field.printWall();
 	glutSwapBuffers();
 	glFlush();

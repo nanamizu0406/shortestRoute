@@ -17,6 +17,7 @@ extern const unsigned fieldSizeHeight;
 extern const unsigned cellSize;
 
 using point=std::pair<int, int>;
+using pointDouble=std::pair<double, double>;
 
 extern point operator+(const point &lhs, const point &rhs);
 

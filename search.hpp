@@ -15,11 +15,11 @@ public:
 	AStar();
 	~AStar();
 	Status status;
-	int cost;
-	int heuristic;
+  double cost;
+	double heuristic;
 	point coord;
 	AStar* parent;
-	int getScore() const;
+	double getScore() const;
 };
 
 extern bool compare(const AStar* obj1, const AStar* obj2);

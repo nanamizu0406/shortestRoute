@@ -98,7 +98,7 @@ void Field::printConsole() const{
 }
 
 void Field::printField() const{
-	static const unsigned lineSize=1;
+	static const unsigned lineSize=1.0;
 	glColor3f(0.0f, 1.0f, 0.0);
 	glLineWidth(lineSize);
 	glBegin(GL_LINES);
@@ -116,14 +116,17 @@ void Field::printField() const{
 void Field::printWall() const{
 	static const double val=cellSize/2;
 	static const unsigned pointSize=cellSize-1;
+	static const unsigned specialPointSize=10;
+	glPointSize(specialPointSize);
+	glBegin(GL_POINTS);
+	glColor3f(1.0f, 0.5f, 0.0f);
+	glVertex2d(val+cellSize*this->start.first, val+cellSize*this->start.second);
+	glColor3f(1.0f, 0.0f, 0.5f);
+	glVertex2d(val+cellSize*this->goal.first, val+cellSize*this->goal.second);
+	glEnd();
 	glPointSize(pointSize);
 	glBegin(GL_POINTS);
-	glColor3f(0.0f, 0.0f, 1.0f);
-	glVertex2d(val+cellSize*this->start.first, val+cellSize*this->start.second);
-	glColor3f(0.0f, 1.0f, 1.0f);
-	glVertex2d(val+cellSize*this->goal.first, val+cellSize*this->goal.second);
 	glColor3f(1.0f, 0.0f, 0.0f);
-	glBegin(GL_POINTS);
 	for(int i=0;i<fieldSizeHeight;i++){
 		for(int j=0;j<fieldSizeWight;j++){
 			if(this->field.at(i).at(j)==WALL)

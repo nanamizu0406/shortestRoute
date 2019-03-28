@@ -6,7 +6,7 @@ AStar::AStar():status(NONE),cost(-1),heuristic(-1),coord(0, 0),parent(nullptr){
 AStar::~AStar(){
 }
 
-int AStar::getScore() const{
+double AStar::getScore() const{
 	return this->cost+this->heuristic;
 }
 
@@ -129,7 +129,7 @@ void Search::makeRoute(const point& goal){
 
 void Search::printRoute() const{
 	static const double val=cellSize/2;
-	static const unsigned pointSize=cellSize-1;	
+	static const unsigned pointSize=cellSize+2;	
 	glPointSize(pointSize);
 	glColor3f(1.0f, 1.0f, 0.0f);
 	glBegin(GL_POINTS);
