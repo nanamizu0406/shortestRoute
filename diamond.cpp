@@ -149,35 +149,26 @@ double Terrain::get(const point &coord) const{
 	double state=this->field.at(coord.second).at(coord.first);
 	if(state>=this->sea1.first&&state<this->sea1.second)
 		return 3;
-		//		return (this->sea1.first+this->sea1.second)/2*this->weight;
 	if(state>=this->sea2.first&&state<this->sea2.second)
 		return 2;
-		//		return (this->sea2.first+this->sea2.second)/2*this->weight;
 	
 	if(state>=this->beach.first&&state<this->beach.second)
 		return 1;
-		//		return (this->beach.first+this->beach.second)/2*this->weight;
 	
 	if(state>=this->grass1.first&&state<this->grass1.second)
 		return 0;
-		//		return (this->grass1.first+this->grass1.second)/2*this->weight;
 	if(state>=this->grass2.first&&state<this->grass2.second)
 		return 1;
-		//		return (this->grass2.first+this->grass2.second)/2*this->weight;
 		
 	if(state>=this->froat1.first&&state<this->froat1.second)
 		return 2;
-		//		return (this->froat1.first+this->froat1.second)/2*this->weight;
 	if(state>=this->froat2.first&&state<this->froat2.second)
 		return 3;
-		//		return (this->froat2.first+this->froat2.second)/2*this->weight;
 	
 	if(state>=this->mountain1.first&&state<=this->mountain1.second)
 		return 4;
-		//		return (this->mountain1.first+this->mountain1.second)/2*this->weight;
 	if(state>=this->mountain2.first&&state<=this->mountain2.second)
 		return 5;
-		//		return (this->mountain2.first+this->mountain2.second)/2*this->weight;
 	
 	return false;
 }

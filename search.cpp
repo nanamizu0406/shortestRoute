@@ -6,13 +6,23 @@ AStar::AStar():status(NONE),cost(-1),heuristic(-1),coord(0, 0),parent(nullptr){
 AStar::~AStar(){
 }
 
+bool compare(const AStar* obj1, const AStar* obj2){
+	bool result=obj1->getScore()!=obj2->getScore();
+	return (result?obj1->getScore()<obj2->getScore():obj1->heuristic<obj2->heuristic);
+}
+
 double AStar::getScore() const{
 	return this->cost+this->heuristic;
 }
 
-bool compare(const AStar* obj1, const AStar* obj2){
-	bool result=obj1->getScore()!=obj2->getScore();
-	return (result?obj1->getScore()<obj2->getScore():obj1->heuristic<obj2->heuristic);
+Dijkstra::Dijkstra():done(false),cost(-1),coord(0,0),parent(nullptr){
+}
+
+Dijkstra::~Dijkstra(){
+}
+
+bool compare2(const Dijkstra* obj1, const Dijkstra* obj2){
+	return obj1->cost<obj2->cost;
 }
 
 Search::Search(){
@@ -23,7 +33,13 @@ Search::~Search(){
 }
 
 void Search::inits(){
+	this->route.clear();
 	this->astar.clear();
+	this->dijkstra.clear();
+}
+
+void Search::initsAstar(){
+	this->inits();
 	this->astar.resize(fieldSizeHeight);
 	std::for_each(this->astar.begin(), this->astar.end(), [this](auto& vec){
 			vec.resize(fieldSizeWight);
@@ -33,7 +49,6 @@ void Search::inits(){
 			this->astar.at(i).at(j).coord=std::make_pair(j, i);
 		}
 	}
-	this->route.clear();
 }
 
 int Search::heuristicCost4(const point& coord, const point& goal) const{
@@ -49,7 +64,7 @@ int Search::heuristicCost8(const point& coord, const point& goal) const{
 }
 
 bool Search::aStar4(Field& fields, Terrain& terrain){
-	this->inits();
+	this->initsAstar();
 	std::vector<AStar*> openList;
 	AStar* start=&this->astar.at(fields.getStart().second).at(fields.getStart().first);
 	start->status=OPEN;
@@ -70,7 +85,6 @@ bool Search::aStar4(Field& fields, Terrain& terrain){
 				if(!fields.isWall(searchCoord)&&next->status==NONE){
 					next->status=OPEN;
 					
-					//修正いるかも
 					point nextCoord=next->coord;
 					next->cost=current->cost+1+terrain.get(nextCoord);
 						
@@ -86,7 +100,7 @@ bool Search::aStar4(Field& fields, Terrain& terrain){
 }
 
 bool Search::aStar8(Field& fields, Terrain& terrain){
-	this->inits();
+	this->initsAstar();
 	std::vector<AStar*> openList;
 	AStar* start=&this->astar.at(fields.getStart().second).at(fields.getStart().first);
 	start->status=OPEN;
@@ -121,17 +135,116 @@ bool Search::aStar8(Field& fields, Terrain& terrain){
 	return false;
 }
 
-void Search::makeRoute(const point& goal){
-	this->route.push_back(goal);
-	point from=this->astar.at(goal.second).at(goal.first).parent->coord;
-	this->route.push_back(from);
-	while(true){
-		if(this->astar.at(from.second).at(from.first).parent==nullptr)
-			break;
-		from=this->astar.at(from.second).at(from.first).parent->coord;
-		this->route.push_back(from);
+void Search::initsDijkstra4(Field& fields,Terrain &terrain){
+	this->inits();
+	this->dijkstra.resize(fieldSizeHeight);
+	std::for_each(this->dijkstra.begin(), this->dijkstra.end(), [this](auto& vec){
+			vec.resize(fieldSizeWight);
+		});
+	for(int i=0;i<fieldSizeHeight;i++){
+		for(int j=0;j<fieldSizeWight;j++){
+			point current=std::make_pair(j, i);
+			this->dijkstra.at(i).at(j).coord=current;
+		}
 	}
-	std::reverse(this->route.begin(), this->route.end());
+	for(int i=1;i<fieldSizeHeight-1;i++){
+		for(int j=1;j<fieldSizeWight-1;j++){
+			for(int k=0;k<this->dir4.size();k++){
+				point current=std::make_pair(j, i);
+				point next=current+this->dir4.at(k);
+				if(!fields.isWall(next)){
+					this->dijkstra.at(i).at(j).edgesTo.push_back(next);
+					this->dijkstra.at(i).at(j).edgesCost.push_back(1+terrain.get(next));
+				}
+			}
+		}	
+	}
+}
+
+void Search::initsDijkstra8(Field& fields,Terrain &terrain){
+	this->inits();
+	this->dijkstra.resize(fieldSizeHeight);
+	std::for_each(this->dijkstra.begin(), this->dijkstra.end(), [this](auto& vec){
+			vec.resize(fieldSizeWight);
+		});
+	for(int i=0;i<fieldSizeHeight;i++){
+		for(int j=0;j<fieldSizeWight;j++){
+			point current=std::make_pair(j, i);
+			this->dijkstra.at(i).at(j).coord=current;
+		}
+	}
+	for(int i=1;i<fieldSizeHeight-1;i++){
+		for(int j=1;j<fieldSizeWight-1;j++){
+			for(int k=0;k<this->dir8.size();k++){
+				point current=std::make_pair(j, i);
+				point next=current+this->dir8.at(k);
+				if(!fields.isWall(next)){
+					this->dijkstra.at(i).at(j).edgesTo.push_back(next);
+					this->dijkstra.at(i).at(j).edgesCost.push_back(1+terrain.get(next));
+				}
+			}
+		}	
+	}
+}
+
+bool Search::dijkstraSearch(Field& fields, Terrain& terrain){
+	bool flag=false;
+	this->initsDijkstra4(fields, terrain);
+	//4方向だとだめ
+	
+	std::vector<Dijkstra*> q;
+	point start=fields.getStart();
+	this->dijkstra.at(start.second).at(start.first).cost=0;
+	q.push_back(&this->dijkstra.at(start.second).at(start.first));
+	
+	while(!q.empty()){
+		std::sort(q.begin(), q.end(), compare2);
+		Dijkstra* current=q.at(0);
+		q.erase(q.begin());
+		current->done=true;
+		if(current->coord==fields.getGoal())
+			flag=true;
+		for(int i=0;i<current->edgesTo.size();i++){
+			point to=current->edgesTo.at(i);
+			double cost=current->cost+current->edgesCost.at(i);
+			if(this->dijkstra.at(to.second).at(to.first).cost<0||cost<dijkstra.at(to.second).at(to.first).cost){
+				dijkstra.at(to.second).at(to.first).cost=cost;
+				dijkstra.at(to.second).at(to.first).parent=current;
+				if(std::find(q.begin(), q.end(), &dijkstra.at(to.second).at(to.first))==q.end())
+					q.push_back(&this->dijkstra.at(to.second).at(to.first));
+			}
+		}
+	}
+	return flag;
+}
+
+void Search::makeRoute(const point& goal){
+	if(!this->astar.empty()){
+		this->route.push_back(goal);
+		point from=this->astar.at(goal.second).at(goal.first).parent->coord;
+		this->route.push_back(from);
+		while(true){
+			if(this->astar.at(from.second).at(from.first).parent==nullptr)
+				break;
+			from=this->astar.at(from.second).at(from.first).parent->coord;
+			this->route.push_back(from);
+		}
+		std::reverse(this->route.begin(), this->route.end());
+	}
+
+	
+	if(!this->dijkstra.empty()){
+		this->route.push_back(goal);
+		point from=this->dijkstra.at(goal.second).at(goal.first).parent->coord;
+		this->route.push_back(from);
+		while(true){
+			if(this->dijkstra.at(from.second).at(from.first).parent==nullptr)
+				break;
+			from=this->dijkstra.at(from.second).at(from.first).parent->coord;
+			this->route.push_back(from);
+		}
+		std::reverse(this->route.begin(), this->route.end());
+	}
 }
 
 void Search::printRoute() const{

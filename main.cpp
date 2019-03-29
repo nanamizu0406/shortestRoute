@@ -59,7 +59,7 @@ void keyboard(unsigned char key, int x, int y){
 	case 'r':
 	case 'R':
 		field.inits();
-		search.inits();
+		search.initsAstar();
 		terrain.clear();
 		glutPostRedisplay();
 		break;
@@ -93,10 +93,25 @@ void keyboard(unsigned char key, int x, int y){
 			glutPostRedisplay();
 		}
 		break;
-	case 'd':
-	case 'D':
+	case 't':
+	case 'T':
 		terrain.diamondSquare();
 		glutPostRedisplay();
+		break;
+	case 'd':
+	case 'D':
+		timer.begin();
+		result=search.dijkstraSearch(field, terrain);
+		timer.stop();
+		if(!result){
+			std::cout<<"route is closed"<<std::endl;
+			glutPostRedisplay();
+		}
+		else{
+			timer.disp();
+			search.makeRoute(field.getGoal());
+			glutPostRedisplay();
+		}
 		break;
 	default:
 		break;
