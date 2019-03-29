@@ -2,6 +2,7 @@
 
 #include"tools.hpp"
 #include"field.hpp"
+#include"diamond.hpp"
 
 enum Status{
 	NONE,
@@ -40,8 +41,8 @@ public:
 	void inits();
 	int heuristicCost4(const point& coord, const point& goal) const;
 	int heuristicCost8(const point& coord, const point& goal) const;
-	bool aStar4(Field& fields);
-	bool aStar8(Field& fields);
+	bool aStar4(Field& fields, Terrain& terrain);
+	bool aStar8(Field& fields, Terrain& terrain);
 	void makeRoute(const point& goal);
 	void printRoute() const;
 };

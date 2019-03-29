@@ -1,3 +1,5 @@
+#pragma once
+
 #include"tools.hpp"
 
 class Terrain{
@@ -12,7 +14,8 @@ private:
 	const std::vector<point> diagonal={
 		{-1,-1},{1,-1},{1,1},{-1,1}
 	};
-	const double noise=0.25;
+	const double noise=0.2;
+	const double weight=5;
 	pointDouble sea1;
 	pointDouble sea2;
 	pointDouble beach;

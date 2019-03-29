@@ -66,7 +66,7 @@ void keyboard(unsigned char key, int x, int y){
 	case 'a':
 	case 'A':
 		timer.begin();
-		result=search.aStar4(field);
+		result=search.aStar4(field, terrain);
 		timer.stop();
 		if(!result){
 			std::cout<<"route is closed"<<std::endl;
@@ -81,7 +81,7 @@ void keyboard(unsigned char key, int x, int y){
 	case 'b':
 	case 'B':
 		timer.begin();
-		result=search.aStar8(field);
+		result=search.aStar8(field, terrain);
 		timer.stop();
 		if(!result){
 			std::cout<<"route is closed"<<std::endl;

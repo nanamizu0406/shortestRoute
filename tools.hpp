@@ -10,8 +10,6 @@
 #include<queue>
 #include<GL/glut.h>
 
-#include"tools.hpp"
-
 extern const unsigned fieldSizeWight;
 extern const unsigned fieldSizeHeight;
 extern const unsigned cellSize;

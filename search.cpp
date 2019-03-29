@@ -48,7 +48,7 @@ int Search::heuristicCost8(const point& coord, const point& goal) const{
 	return dx+dy;
 }
 
-bool Search::aStar4(Field& fields){
+bool Search::aStar4(Field& fields, Terrain& terrain){
 	this->inits();
 	std::vector<AStar*> openList;
 	AStar* start=&this->astar.at(fields.getStart().second).at(fields.getStart().first);
@@ -70,7 +70,9 @@ bool Search::aStar4(Field& fields){
 				if(!fields.isWall(searchCoord)&&next->status==NONE){
 					next->status=OPEN;
 					
-					next->cost=current->cost+1;
+					//修正いるかも
+					point nextCoord=next->coord;
+					next->cost=current->cost+1+terrain.get(nextCoord);
 						
 					next->heuristic=this->heuristicCost4(next->coord, fields.getGoal());
 					next->parent=current;
@@ -83,7 +85,7 @@ bool Search::aStar4(Field& fields){
 	return false;
 }
 
-bool Search::aStar8(Field& fields){
+bool Search::aStar8(Field& fields, Terrain& terrain){
 	this->inits();
 	std::vector<AStar*> openList;
 	AStar* start=&this->astar.at(fields.getStart().second).at(fields.getStart().first);
@@ -104,7 +106,10 @@ bool Search::aStar8(Field& fields){
 				next=&this->astar.at(searchCoord.second).at(searchCoord.first);
 				if(!fields.isWall(searchCoord)&&next->status==NONE){
 					next->status=OPEN;
-					next->cost=current->cost+1;
+					
+					point nextCoord=next->coord;
+					next->cost=current->cost+1+terrain.get(nextCoord);
+					
 					next->heuristic=this->heuristicCost8(next->coord, fields.getGoal());
 					next->parent=current;
 					openList.push_back(next);
