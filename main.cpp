@@ -78,18 +78,7 @@ void keyboard(unsigned char key, int x, int y){
 		break;
 	case 'd':
 	case 'D':
-		timer.begin();
-		result=search.dijkstraSearch(field, terrain);
-		timer.stop();
-		if(!result){
-			std::cout<<"route is closed"<<std::endl;
-			glutPostRedisplay();
-		}
-		else{
-			timer.disp();
-			search.makeRoute(field.getGoal());
-			glutPostRedisplay();
-		}
+		dijkstraAlgorithm4();
 		break;
 	case 't':
 	case 'T':
@@ -158,7 +147,7 @@ void reset(){
 }
 
 void astarAlgorithm4(){
-	std::cout<<"４方向移動可能なA*アルゴリズム"<<std::endl;
+	std::cout<<"A* algorithm 4"<<std::endl;
 	timer.begin();
 	bool result=search.aStar4(field, terrain);
 	timer.stop();
@@ -174,7 +163,7 @@ void astarAlgorithm4(){
 }
 
 void astarAlgorithm8(){
-	std::cout<<"８方向移動可能なA*アルゴリズム"<<std::endl;
+	std::cout<<"A* algorithm 8"<<std::endl;
 	timer.begin();
 	bool result=search.aStar8(field, terrain);
 	timer.stop();
@@ -190,15 +179,32 @@ void astarAlgorithm8(){
 }
 
 void dijkstraAlgorithm4(){
-	
+	std::cout<<"dijkstra algorithm 4"<<std::endl;
+	timer.begin();
+	bool result=search.dijkstraSearch(field, terrain);
+	timer.stop();
+	if(!result){
+		std::cout<<"route is closed"<<std::endl;
+		glutPostRedisplay();
+	}
+	else{
+		timer.disp();
+		search.makeRoute(field.getGoal());
+		glutPostRedisplay();
+	}
 }
 
 void dijkstraAlgorithm8(){
+	std::cout<<"dijkstra algorithm 8"<<std::endl;
 	
 }
 
 void diamondSquareAlgorithm(){
+	std::cout<<"diamond square algorithm"<<std::endl;
+	timer.begin();
 	terrain.diamondSquare();
+	timer.stop();
+	timer.disp();
 	glutPostRedisplay();
 }
 
