@@ -13,7 +13,8 @@ a…４方向移動可能なA* algorit
 b…８方向移動可能なA* algorit   
 c…４方向移動可能なdijkstra algorit  
 d…８方向移動可能なdijkstra algorith   
-t…diamond squre algorithmによる自動地形生成、更  
+t…diamond squre algorithmによる自動地形生成、更新  
+r…盤情報の初期化  
 q…終了  
 左クリックしながらのマウスドラッグで壁の作成  
 左クリックでクリック位置にスタート、ゴール地点を交互に変更
