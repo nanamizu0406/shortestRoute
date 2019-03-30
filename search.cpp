@@ -22,8 +22,6 @@ Dijkstra::~Dijkstra(){
 }
 
 bool compare2(const Dijkstra* obj1, const Dijkstra* obj2){
-	if(obj1->cost==obj2->cost)
-		return obj1->coord.first<obj2->coord.first;
 	return obj1->cost<obj2->cost;
 }
 
@@ -35,9 +33,9 @@ Search::~Search(){
 }
 
 void Search::inits(){
-	this->route.clear();
 	this->astar.clear();
 	this->dijkstra.clear();
+	this->route.clear();
 }
 
 void Search::initsAstar(){
@@ -185,22 +183,28 @@ void Search::initsDijkstra8(Field& fields,Terrain &terrain){
 	}
 }
 
-bool Search::dijkstraSearch(Field& fields, Terrain& terrain){
-	bool flag=false;
+bool Search::dijkstra4(Field &fields, Terrain &terrain){
 	this->initsDijkstra4(fields, terrain);
-	
+	this->dijkstraSearch(fields, terrain);
+}
+
+bool Search::dijkstra8(Field &fields, Terrain &terrain){
+	this->initsDijkstra8(fields, terrain);
+	this->dijkstraSearch(fields, terrain);
+}
+
+bool Search::dijkstraSearch(Field& fields, Terrain& terrain){
 	std::vector<Dijkstra*> q;
 	point start=fields.getStart();
 	this->dijkstra.at(start.second).at(start.first).cost=0;
-	q.push_back(&this->dijkstra.at(start.second).at(start.first));
-	
+	q.push_back(&this->dijkstra.at(start.second).at(start.first));	
 	while(!q.empty()){
 		std::sort(q.begin(), q.end(), compare2);
 		Dijkstra* current=q.at(0);
 		q.erase(q.begin());
 		current->done=true;
 		if(current->coord==fields.getGoal())
-			flag=true;
+			return true;
 		for(int i=0;i<current->edgesTo.size();i++){
 			point to=current->edgesTo.at(i);
 			double cost=current->cost+current->edgesCost.at(i);
@@ -212,7 +216,7 @@ bool Search::dijkstraSearch(Field& fields, Terrain& terrain){
 			}
 		}
 	}
-	return flag;
+	return false;
 }
 
 void Search::makeRoute(const point& goal){
@@ -228,8 +232,6 @@ void Search::makeRoute(const point& goal){
 		}
 		std::reverse(this->route.begin(), this->route.end());
 	}
-
-	
 	if(!this->dijkstra.empty()){
 		this->route.push_back(goal);
 		point from=this->dijkstra.at(goal.second).at(goal.first).parent->coord;

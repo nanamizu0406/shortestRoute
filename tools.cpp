@@ -20,5 +20,5 @@ void Timer::stop(){
 
 void Timer::disp() const{
 	unsigned val=std::chrono::duration_cast<std::chrono::microseconds>(this->end-this->start).count();
-	std::cout<<val<<"micro"<<std::endl;
+	std::cout<<val<<" micro"<<std::endl;
 }

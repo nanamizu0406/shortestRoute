@@ -65,6 +65,8 @@ public:
 public:
 	void initsDijkstra4(Field& fields, Terrain& terrain);
 	void initsDijkstra8(Field& fields, Terrain& terrain);
+	bool dijkstra4(Field& fields, Terrain& terrain);
+	bool dijkstra8(Field& fields, Terrain& terrain);
 	bool dijkstraSearch(Field& fields, Terrain& terrain);
 public:
 	void makeRoute(const point& goal);

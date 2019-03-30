@@ -71,7 +71,7 @@ void Terrain::inits(){
 		});
 	const unsigned x=fieldSizeWight/2+1;
 	const unsigned y=fieldSizeHeight/2+1;
-	this->field.at(y).at(x)=1.0;
+	this->field.at(y).at(x)=1;
 }
 
 void Terrain::clear(){
@@ -128,7 +128,7 @@ void Terrain::print() const{
 				continue;				
 			}
 			
-			if(state>=this->mountain1.first&&state<=this->mountain1.second){
+			if(state>=this->mountain1.first&&state<this->mountain1.second){
 				glColor3f(0.7f, 0.7f, 0.7f);
 				glVertex2d(val+cellSize*j, val+cellSize*i);
 				continue;				
@@ -165,7 +165,7 @@ double Terrain::get(const point &coord) const{
 	if(state>=this->froat2.first&&state<this->froat2.second)
 		return 3;
 	
-	if(state>=this->mountain1.first&&state<=this->mountain1.second)
+	if(state>=this->mountain1.first&&state<this->mountain1.second)
 		return 4;
 	if(state>=this->mountain2.first&&state<=this->mountain2.second)
 		return 5;
