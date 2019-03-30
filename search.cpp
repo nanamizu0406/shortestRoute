@@ -22,6 +22,8 @@ Dijkstra::~Dijkstra(){
 }
 
 bool compare2(const Dijkstra* obj1, const Dijkstra* obj2){
+	if(obj1->cost==obj2->cost)
+		return obj1->coord.first<obj2->coord.first;
 	return obj1->cost<obj2->cost;
 }
 
@@ -45,9 +47,8 @@ void Search::initsAstar(){
 			vec.resize(fieldSizeWight);
 		});
 	for(int i=0;i<fieldSizeHeight;i++){
-		for(int j=0;j<fieldSizeWight;j++){
+		for(int j=0;j<fieldSizeWight;j++)
 			this->astar.at(i).at(j).coord=std::make_pair(j, i);
-		}
 	}
 }
 
