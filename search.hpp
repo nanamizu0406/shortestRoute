@@ -23,7 +23,7 @@ public:
 	double getScore() const;
 };
 
-extern bool compare(const AStar* obj1, const AStar* obj2);
+extern bool compare1(const AStar* obj1, const AStar* obj2);
 
 class Dijkstra{
 private:

@@ -11,6 +11,14 @@ void display();
 void mouse(int button, int state, int x, int y);
 void motion(int x, int y);
 
+void finish();
+void reset();
+void astarAlgorithm4();
+void astarAlgorithm8();
+void dijkstraAlgorithm4();
+void dijkstraAlgorithm8();
+void diamondSquareAlgorithm();
+
 Timer timer;
 Field field;
 Search search;
@@ -54,49 +62,19 @@ void keyboard(unsigned char key, int x, int y){
 	case 'q':
 	case 'Q':
 	case '\033':
-		std::exit(0);
+		finish();
 		break;
 	case 'r':
 	case 'R':
-		field.inits();
-		search.initsAstar();
-		terrain.clear();
-		glutPostRedisplay();
+		reset();
 		break;
 	case 'a':
 	case 'A':
-		timer.begin();
-		result=search.aStar4(field, terrain);
-		timer.stop();
-		if(!result){
-			std::cout<<"route is closed"<<std::endl;
-			glutPostRedisplay();
-		}
-		else{
-			timer.disp();
-			search.makeRoute(field.getGoal());
-			glutPostRedisplay();
-		}
+		astarAlgorithm4();
 		break;
 	case 'b':
 	case 'B':
-		timer.begin();
-		result=search.aStar8(field, terrain);
-		timer.stop();
-		if(!result){
-			std::cout<<"route is closed"<<std::endl;
-			glutPostRedisplay();
-		}
-		else{
-			timer.disp();
-			search.makeRoute(field.getGoal());
-			glutPostRedisplay();
-		}
-		break;
-	case 't':
-	case 'T':
-		terrain.diamondSquare();
-		glutPostRedisplay();
+		astarAlgorithm8();
 		break;
 	case 'd':
 	case 'D':
@@ -112,6 +90,10 @@ void keyboard(unsigned char key, int x, int y){
 			search.makeRoute(field.getGoal());
 			glutPostRedisplay();
 		}
+		break;
+	case 't':
+	case 'T':
+		diamondSquareAlgorithm();
 		break;
 	default:
 		break;
@@ -162,6 +144,61 @@ void mouse(int button, int state, int x, int y){
 void motion(int x, int y){
 	field.recordCoord(x, y);
 	field.plotWall();
+	glutPostRedisplay();
+}
+
+void finish(){
+	std::exit(0);
+}
+
+void reset(){
+	field.inits();
+	terrain.clear();
+	glutPostRedisplay();
+}
+
+void astarAlgorithm4(){
+	std::cout<<"４方向移動可能なA*アルゴリズム"<<std::endl;
+	timer.begin();
+	bool result=search.aStar4(field, terrain);
+	timer.stop();
+	if(!result){
+		std::cout<<"route is closed"<<std::endl;
+		glutPostRedisplay();
+	}
+	else{
+		timer.disp();
+		search.makeRoute(field.getGoal());
+		glutPostRedisplay();
+	}
+}
+
+void astarAlgorithm8(){
+	std::cout<<"８方向移動可能なA*アルゴリズム"<<std::endl;
+	timer.begin();
+	bool result=search.aStar8(field, terrain);
+	timer.stop();
+	if(!result){
+		std::cout<<"route is closed"<<std::endl;
+		glutPostRedisplay();
+	}
+	else{
+		timer.disp();
+		search.makeRoute(field.getGoal());
+		glutPostRedisplay();
+	}
+}
+
+void dijkstraAlgorithm4(){
+	
+}
+
+void dijkstraAlgorithm8(){
+	
+}
+
+void diamondSquareAlgorithm(){
+	terrain.diamondSquare();
 	glutPostRedisplay();
 }
 
