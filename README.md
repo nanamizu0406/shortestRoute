@@ -32,7 +32,7 @@ $ sudo yum install freeglut-devel
 ~~~
 それでも動かない場合は以下をインストールしてください。
 ~~~
-sudo apt-get install libxmu-dev libxi-dev
+$sudo apt-get install libxmu-dev libxi-dev
 ~~~
 
 ## 実行方法
