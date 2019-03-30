@@ -43,3 +43,5 @@ gccglに実行権限を与えてください。その後scriptファイルを使
 $./gccgl main.cpp field.cpp search.cpp tools.cpp diamond.cpp
 $./a.out
 ~~~
+## イメージ画像
+![地形描画と探索結果のイメージ](https://user-images.githubusercontent.com/39081837/55276570-9a174100-5338-11e9-8866-d8f337652056.jpg)
