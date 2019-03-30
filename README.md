@@ -16,4 +16,15 @@ d…８方向移動可能なdijkstra algorith
 t…diamond squre algorithmによる自動地形生成、更  
 q…終了
 
-
+## 動作環境
+glutを使用して描画を行います。glutや必要なソフトをインストールしてください。
+私はlinuxを使用しているのでlinuxに関するインストール方法を掲載します
+'''
+(Vine)
+$ sudo apt-get install freeglut freeglut-devel
+(Debian, Ubuntu)
+$ sudo apt-get install freeglut3 freeglut3-dev
+(RedHat, Fedra)
+$ sudo yum install freeglut
+$ sudo yum install freeglut-devel
+'''
