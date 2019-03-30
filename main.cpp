@@ -6,7 +6,6 @@
 void inits();
 void resize(int w, int h);
 void keyboard(unsigned char key, int x, int y);
-void special(int key, int x, int y);
 void display();
 void mouse(int button, int state, int x, int y);
 void motion(int x, int y);
@@ -30,7 +29,6 @@ int main(int argc, char* argv[]){
 	inits();
 	glutReshapeFunc(resize);
 	glutKeyboardFunc(keyboard);
-	glutSpecialFunc(special);
 	glutDisplayFunc(display);
 	glutMouseFunc(mouse);
 	glutMotionFunc(motion);
@@ -87,17 +85,6 @@ void keyboard(unsigned char key, int x, int y){
 	case 't':
 	case 'T':
 		diamondSquareAlgorithm();
-		break;
-	default:
-		break;
-	}
-}
-
-void special(int key, int x, int y){
-	switch(key){
-	case GLUT_KEY_F5:
-		field.plotWall();
-		glutPostRedisplay();
 		break;
 	default:
 		break;
