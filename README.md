@@ -18,7 +18,7 @@ q…終了
 
 ## 動作環境
 glutを使用して描画を行います。glutや必要なソフトをインストールしてください。
-私はlinuxを使用しているのでlinuxに関するインストール方法を掲載します
+私はlinuxを使用しているのでlinuxに関するインストール方法を掲載します。
 ~~~
 (Vine)
 $ sudo apt-get install freeglut freeglut-devel
@@ -27,4 +27,16 @@ $ sudo apt-get install freeglut3 freeglut3-dev
 (RedHat, Fedra)
 $ sudo yum install freeglut
 $ sudo yum install freeglut-devel
+~~~
+それでも動かない場合は以下をインストールしてください。
+~~~
+sudo apt-get install libxmu-dev libxi-dev
+~~~
+
+## 実行方法
+リポジトリ内にあるshellscriptフィルによってコンパイルします。  
+gccglに実行権限を与えてください。その後scriptファイルを使ってコンパイルしてください。  
+~~~
+$./gccgl main.cpp field.cpp search.cpp tools.cpp diamond.cpp
+$./a.out
 ~~~
