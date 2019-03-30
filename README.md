@@ -14,7 +14,8 @@ b…８方向移動可能なA* algorit
 c…４方向移動可能なdijkstra algorit  
 d…８方向移動可能なdijkstra algorith   
 t…diamond squre algorithmによる自動地形生成、更  
-q…終了
+q…終了  
+左クリックしながらのマウスドラッグで壁の作成
 
 ## 動作環境
 glutを使用して描画を行います。glutや必要なソフトをインストールしてください。
