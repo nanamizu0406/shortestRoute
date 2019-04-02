@@ -104,7 +104,7 @@ bool Search::aStar8(Field& fields, Terrain& terrain){
 	AStar* start=&this->astar.at(fields.getStart().second).at(fields.getStart().first);
 	start->status=OPEN;
 	start->cost=0;
-	start->heuristic=this->heuristicCost8(start->coord, fields.getGoal());
+	start->heuristic=this->heuristicCost4(start->coord, fields.getGoal());
 	openList.push_back(start);
 	AStar* current;
 	AStar* next;
@@ -121,7 +121,7 @@ bool Search::aStar8(Field& fields, Terrain& terrain){
 					next->status=OPEN;
 					point nextCoord=next->coord;
 					next->cost=current->cost+1+terrain.get(nextCoord);
-					next->heuristic=this->heuristicCost8(next->coord, fields.getGoal());
+					next->heuristic=this->heuristicCost4(next->coord, fields.getGoal());
 					next->parent=current;
 					openList.push_back(next);
 				}
@@ -129,7 +129,7 @@ bool Search::aStar8(Field& fields, Terrain& terrain){
 		current->status=CLOSED;
 		openList.erase(openList.begin());
 	}
-	return false;
+	return true;
 }
 
 void Search::initsDijkstra4(Field& fields,Terrain &terrain){
@@ -195,6 +195,7 @@ bool Search::dijkstra8(Field &fields, Terrain &terrain){
 }
 
 bool Search::dijkstraSearch(Field& fields, Terrain& terrain){
+	bool flag=false;
 	std::vector<Dijkstra*> q;
 	point start=fields.getStart();
 	this->dijkstra.at(start.second).at(start.first).cost=0;
@@ -259,4 +260,3 @@ void Search::printRoute() const{
 	}
 	glEnd();
 }
-

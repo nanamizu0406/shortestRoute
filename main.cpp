@@ -17,6 +17,7 @@ void astarAlgorithm8();
 void dijkstraAlgorithm4();
 void dijkstraAlgorithm8();
 void diamondSquareAlgorithm();
+void diamondSquareAlgorithm10();
 
 Timer timer;
 Field field;
@@ -85,6 +86,10 @@ void keyboard(unsigned char key, int x, int y){
 	case 't':
 	case 'T':
 		diamondSquareAlgorithm();
+		break;
+	case 'y':
+	case 'Y':
+		diamondSquareAlgorithm10();
 		break;
 	default:
 		break;
@@ -211,3 +216,13 @@ void diamondSquareAlgorithm(){
 	glutPostRedisplay();
 }
 
+void diamondSquareAlgorithm10(){
+	std::cout<<"diamond square algorithm10"<<std::endl;
+	for(int i=0;i<10;i++){
+		timer.begin();
+		terrain.diamondSquare();
+		timer.stop();
+		timer.disp();
+	}
+	glutPostRedisplay();
+}
