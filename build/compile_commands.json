@@ -6,7 +6,27 @@
 },
 {
   "directory": "/home/kaito/program/A-star/build",
+  "command": "/usr/bin/c++  -DMACRO1=bar  -std=c++14 -Wall   -I/foo/dir1 -o CMakeFiles/cmake_test.dir/diamond.cpp.o -c /home/kaito/program/A-star/diamond.cpp",
+  "file": "/home/kaito/program/A-star/diamond.cpp"
+},
+{
+  "directory": "/home/kaito/program/A-star/build",
+  "command": "/usr/bin/c++  -DMACRO1=bar  -std=c++14 -Wall   -I/foo/dir1 -o CMakeFiles/cmake_test.dir/field.cpp.o -c /home/kaito/program/A-star/field.cpp",
+  "file": "/home/kaito/program/A-star/field.cpp"
+},
+{
+  "directory": "/home/kaito/program/A-star/build",
   "command": "/usr/bin/c++  -DMACRO1=bar  -std=c++14 -Wall   -I/foo/dir1 -o CMakeFiles/cmake_test.dir/main.cpp.o -c /home/kaito/program/A-star/main.cpp",
   "file": "/home/kaito/program/A-star/main.cpp"
+},
+{
+  "directory": "/home/kaito/program/A-star/build",
+  "command": "/usr/bin/c++  -DMACRO1=bar  -std=c++14 -Wall   -I/foo/dir1 -o CMakeFiles/cmake_test.dir/search.cpp.o -c /home/kaito/program/A-star/search.cpp",
+  "file": "/home/kaito/program/A-star/search.cpp"
+},
+{
+  "directory": "/home/kaito/program/A-star/build",
+  "command": "/usr/bin/c++  -DMACRO1=bar  -std=c++14 -Wall   -I/foo/dir1 -o CMakeFiles/cmake_test.dir/tools.cpp.o -c /home/kaito/program/A-star/tools.cpp",
+  "file": "/home/kaito/program/A-star/tools.cpp"
 }
 ]

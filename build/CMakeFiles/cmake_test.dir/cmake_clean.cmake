@@ -1,6 +1,10 @@
 file(REMOVE_RECURSE
   "CMakeFiles/cmake_test.dir/CMakeFiles/3.10.2/CompilerIdCXX/CMakeCXXCompilerId.cpp.o"
+  "CMakeFiles/cmake_test.dir/diamond.cpp.o"
+  "CMakeFiles/cmake_test.dir/field.cpp.o"
   "CMakeFiles/cmake_test.dir/main.cpp.o"
+  "CMakeFiles/cmake_test.dir/search.cpp.o"
+  "CMakeFiles/cmake_test.dir/tools.cpp.o"
   "cmake_test.pdb"
   "cmake_test"
 )

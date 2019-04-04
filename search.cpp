@@ -129,7 +129,7 @@ bool Search::aStar8(Field& fields, Terrain& terrain){
 		current->status=CLOSED;
 		openList.erase(openList.begin());
 	}
-	return true;
+	return false;
 }
 
 void Search::initsDijkstra4(Field& fields,Terrain &terrain){

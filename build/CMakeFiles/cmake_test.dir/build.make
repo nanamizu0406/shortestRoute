@@ -81,9 +81,57 @@ CMakeFiles/cmake_test.dir/CMakeFiles/3.10.2/CompilerIdCXX/CMakeCXXCompilerId.cpp
 CMakeFiles/cmake_test.dir/CMakeFiles/3.10.2/CompilerIdCXX/CMakeCXXCompilerId.cpp.o.provides.build: CMakeFiles/cmake_test.dir/CMakeFiles/3.10.2/CompilerIdCXX/CMakeCXXCompilerId.cpp.o
 
 
+CMakeFiles/cmake_test.dir/diamond.cpp.o: CMakeFiles/cmake_test.dir/flags.make
+CMakeFiles/cmake_test.dir/diamond.cpp.o: ../diamond.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kaito/program/A-star/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/cmake_test.dir/diamond.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cmake_test.dir/diamond.cpp.o -c /home/kaito/program/A-star/diamond.cpp
+
+CMakeFiles/cmake_test.dir/diamond.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cmake_test.dir/diamond.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/kaito/program/A-star/diamond.cpp > CMakeFiles/cmake_test.dir/diamond.cpp.i
+
+CMakeFiles/cmake_test.dir/diamond.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cmake_test.dir/diamond.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/kaito/program/A-star/diamond.cpp -o CMakeFiles/cmake_test.dir/diamond.cpp.s
+
+CMakeFiles/cmake_test.dir/diamond.cpp.o.requires:
+
+.PHONY : CMakeFiles/cmake_test.dir/diamond.cpp.o.requires
+
+CMakeFiles/cmake_test.dir/diamond.cpp.o.provides: CMakeFiles/cmake_test.dir/diamond.cpp.o.requires
+	$(MAKE) -f CMakeFiles/cmake_test.dir/build.make CMakeFiles/cmake_test.dir/diamond.cpp.o.provides.build
+.PHONY : CMakeFiles/cmake_test.dir/diamond.cpp.o.provides
+
+CMakeFiles/cmake_test.dir/diamond.cpp.o.provides.build: CMakeFiles/cmake_test.dir/diamond.cpp.o
+
+
+CMakeFiles/cmake_test.dir/field.cpp.o: CMakeFiles/cmake_test.dir/flags.make
+CMakeFiles/cmake_test.dir/field.cpp.o: ../field.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kaito/program/A-star/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/cmake_test.dir/field.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cmake_test.dir/field.cpp.o -c /home/kaito/program/A-star/field.cpp
+
+CMakeFiles/cmake_test.dir/field.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cmake_test.dir/field.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/kaito/program/A-star/field.cpp > CMakeFiles/cmake_test.dir/field.cpp.i
+
+CMakeFiles/cmake_test.dir/field.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cmake_test.dir/field.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/kaito/program/A-star/field.cpp -o CMakeFiles/cmake_test.dir/field.cpp.s
+
+CMakeFiles/cmake_test.dir/field.cpp.o.requires:
+
+.PHONY : CMakeFiles/cmake_test.dir/field.cpp.o.requires
+
+CMakeFiles/cmake_test.dir/field.cpp.o.provides: CMakeFiles/cmake_test.dir/field.cpp.o.requires
+	$(MAKE) -f CMakeFiles/cmake_test.dir/build.make CMakeFiles/cmake_test.dir/field.cpp.o.provides.build
+.PHONY : CMakeFiles/cmake_test.dir/field.cpp.o.provides
+
+CMakeFiles/cmake_test.dir/field.cpp.o.provides.build: CMakeFiles/cmake_test.dir/field.cpp.o
+
+
 CMakeFiles/cmake_test.dir/main.cpp.o: CMakeFiles/cmake_test.dir/flags.make
 CMakeFiles/cmake_test.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kaito/program/A-star/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/cmake_test.dir/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kaito/program/A-star/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/cmake_test.dir/main.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cmake_test.dir/main.cpp.o -c /home/kaito/program/A-star/main.cpp
 
 CMakeFiles/cmake_test.dir/main.cpp.i: cmake_force
@@ -105,19 +153,75 @@ CMakeFiles/cmake_test.dir/main.cpp.o.provides: CMakeFiles/cmake_test.dir/main.cp
 CMakeFiles/cmake_test.dir/main.cpp.o.provides.build: CMakeFiles/cmake_test.dir/main.cpp.o
 
 
+CMakeFiles/cmake_test.dir/search.cpp.o: CMakeFiles/cmake_test.dir/flags.make
+CMakeFiles/cmake_test.dir/search.cpp.o: ../search.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kaito/program/A-star/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/cmake_test.dir/search.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cmake_test.dir/search.cpp.o -c /home/kaito/program/A-star/search.cpp
+
+CMakeFiles/cmake_test.dir/search.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cmake_test.dir/search.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/kaito/program/A-star/search.cpp > CMakeFiles/cmake_test.dir/search.cpp.i
+
+CMakeFiles/cmake_test.dir/search.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cmake_test.dir/search.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/kaito/program/A-star/search.cpp -o CMakeFiles/cmake_test.dir/search.cpp.s
+
+CMakeFiles/cmake_test.dir/search.cpp.o.requires:
+
+.PHONY : CMakeFiles/cmake_test.dir/search.cpp.o.requires
+
+CMakeFiles/cmake_test.dir/search.cpp.o.provides: CMakeFiles/cmake_test.dir/search.cpp.o.requires
+	$(MAKE) -f CMakeFiles/cmake_test.dir/build.make CMakeFiles/cmake_test.dir/search.cpp.o.provides.build
+.PHONY : CMakeFiles/cmake_test.dir/search.cpp.o.provides
+
+CMakeFiles/cmake_test.dir/search.cpp.o.provides.build: CMakeFiles/cmake_test.dir/search.cpp.o
+
+
+CMakeFiles/cmake_test.dir/tools.cpp.o: CMakeFiles/cmake_test.dir/flags.make
+CMakeFiles/cmake_test.dir/tools.cpp.o: ../tools.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kaito/program/A-star/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/cmake_test.dir/tools.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cmake_test.dir/tools.cpp.o -c /home/kaito/program/A-star/tools.cpp
+
+CMakeFiles/cmake_test.dir/tools.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cmake_test.dir/tools.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/kaito/program/A-star/tools.cpp > CMakeFiles/cmake_test.dir/tools.cpp.i
+
+CMakeFiles/cmake_test.dir/tools.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cmake_test.dir/tools.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/kaito/program/A-star/tools.cpp -o CMakeFiles/cmake_test.dir/tools.cpp.s
+
+CMakeFiles/cmake_test.dir/tools.cpp.o.requires:
+
+.PHONY : CMakeFiles/cmake_test.dir/tools.cpp.o.requires
+
+CMakeFiles/cmake_test.dir/tools.cpp.o.provides: CMakeFiles/cmake_test.dir/tools.cpp.o.requires
+	$(MAKE) -f CMakeFiles/cmake_test.dir/build.make CMakeFiles/cmake_test.dir/tools.cpp.o.provides.build
+.PHONY : CMakeFiles/cmake_test.dir/tools.cpp.o.provides
+
+CMakeFiles/cmake_test.dir/tools.cpp.o.provides.build: CMakeFiles/cmake_test.dir/tools.cpp.o
+
+
 # Object files for target cmake_test
 cmake_test_OBJECTS = \
 "CMakeFiles/cmake_test.dir/CMakeFiles/3.10.2/CompilerIdCXX/CMakeCXXCompilerId.cpp.o" \
-"CMakeFiles/cmake_test.dir/main.cpp.o"
+"CMakeFiles/cmake_test.dir/diamond.cpp.o" \
+"CMakeFiles/cmake_test.dir/field.cpp.o" \
+"CMakeFiles/cmake_test.dir/main.cpp.o" \
+"CMakeFiles/cmake_test.dir/search.cpp.o" \
+"CMakeFiles/cmake_test.dir/tools.cpp.o"
 
 # External object files for target cmake_test
 cmake_test_EXTERNAL_OBJECTS =
 
 cmake_test: CMakeFiles/cmake_test.dir/CMakeFiles/3.10.2/CompilerIdCXX/CMakeCXXCompilerId.cpp.o
+cmake_test: CMakeFiles/cmake_test.dir/diamond.cpp.o
+cmake_test: CMakeFiles/cmake_test.dir/field.cpp.o
 cmake_test: CMakeFiles/cmake_test.dir/main.cpp.o
+cmake_test: CMakeFiles/cmake_test.dir/search.cpp.o
+cmake_test: CMakeFiles/cmake_test.dir/tools.cpp.o
 cmake_test: CMakeFiles/cmake_test.dir/build.make
 cmake_test: CMakeFiles/cmake_test.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/kaito/program/A-star/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable cmake_test"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/kaito/program/A-star/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable cmake_test"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/cmake_test.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -126,7 +230,11 @@ CMakeFiles/cmake_test.dir/build: cmake_test
 .PHONY : CMakeFiles/cmake_test.dir/build
 
 CMakeFiles/cmake_test.dir/requires: CMakeFiles/cmake_test.dir/CMakeFiles/3.10.2/CompilerIdCXX/CMakeCXXCompilerId.cpp.o.requires
+CMakeFiles/cmake_test.dir/requires: CMakeFiles/cmake_test.dir/diamond.cpp.o.requires
+CMakeFiles/cmake_test.dir/requires: CMakeFiles/cmake_test.dir/field.cpp.o.requires
 CMakeFiles/cmake_test.dir/requires: CMakeFiles/cmake_test.dir/main.cpp.o.requires
+CMakeFiles/cmake_test.dir/requires: CMakeFiles/cmake_test.dir/search.cpp.o.requires
+CMakeFiles/cmake_test.dir/requires: CMakeFiles/cmake_test.dir/tools.cpp.o.requires
 
 .PHONY : CMakeFiles/cmake_test.dir/requires
 
